@@ -1,0 +1,236 @@
+<!doctype html>
+
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio — ملف شخصي احترافي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/htmx.org@1.11.2"></script>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent:#06b6d4;
+      --accent-2:#22c1c3;
+      --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.02);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;padding:24px;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg),#08111a);color: #e6eef6;
+      -webkit-font-smoothing:antialiased;
+    }
+    .container{max-width:980px;margin:0 auto}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#042028}
+    h1{margin:0;font-size:20px}
+    h2{margin:0;font-size:18px;color:var(--accent)}
+    .card{background:var(--card);padding:20px;border-radius:14px;box-shadow:0 6px 24px rgba(2,6,23,0.6);margin-bottom:18px}
+    .hero{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:center}
+    @media(max-width:880px){.hero{grid-template-columns:1fr} .brand h1{font-size:18px}}.intro p{color:var(--muted);line-height:1.6}
+.cta{margin-top:14px;display:flex;gap:10px}
+.btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700;transition:transform .18s ease, box-shadow .18s ease}
+.btn:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(6,182,212,0.12)}
+.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:10px 12px;border-radius:10px;transition:background .15s ease, transform .12s ease}
+.ghost:hover{background:var(--glass);transform:translateY(-2px)}
+
+.meta{display:flex;flex-direction:column;gap:10px}
+.meta .stat{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:linear-gradient(0deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));transition:transform .12s ease}
+.meta .stat:hover{transform:translateY(-6px)}
+.skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{padding:6px 10px;border-radius:999px;background:var(--glass);color:var(--muted);font-weight:600;transition:transform .12s ease, background .12s ease}
+.chip:hover{transform:translateY(-4px);background:linear-gradient(90deg, rgba(6,182,212,0.06), rgba(34,193,195,0.06));color:#eaf9fb}
+
+.about-brief{font-size:15px}
+.why{margin-top:12px;background:linear-gradient(180deg, rgba(6,182,212,0.06), transparent);padding:12px;border-radius:10px}
+
+footer{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;margin-top:18px}
+
+/* contact */
+form label{display:block;margin-bottom:6px;color:var(--muted);font-size:14px}
+input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;transition:box-shadow .12s ease, border-color .12s ease}
+input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 6px 18px rgba(6,182,212,0.06)}
+textarea{min-height:110px}
+.note{font-size:13px;color:var(--muted);margin-top:8px}
+
+/* subtle glass hover on cards */
+.card:hover{box-shadow:0 18px 50px rgba(2,6,23,0.7)}
+
+/* toast */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012;padding:12px 18px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.6);display:none;z-index:60}
+.toast.show{display:block;animation:toast-in .36s ease}
+@keyframes toast-in{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* ripple effect for primary button */
+.btn{position:relative;overflow:hidden}
+.ripple{position:absolute;border-radius:50%;transform:scale(0);animation:ripple .6s linear;background:rgba(255,255,255,0.15)}
+@keyframes ripple{to{transform:scale(12);opacity:0}}
+
+/* small responsive tweaks */
+@media(max-width:520px){.hero{grid-template-columns:1fr} .meta{flex-direction:row;flex-wrap:wrap}}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">MH</div>
+        <div>
+          <h1>Mohand Hassan</h1>
+          <div style="font-size:13px;color:var(--muted)">مطور واجهات وتجارب مستخدم. احترافي وقابل للتسليم.</div>
+        </div>
+      </div>
+      <div>
+        <nav style="display:flex;gap:10px">
+          <button class="ghost" hx-get="/about.html" hx-target="#main" hx-swap="outerHTML">عنّي</button>
+          <button class="ghost" hx-get="/contact.html" hx-target="#main" hx-swap="outerHTML">تواصل</button>
+        </nav>
+      </div>
+    </header><main id="main">
+  <section class="card hero">
+    <div>
+      <div class="intro">
+        <h2>مطور واجهات وتجارب</h2>
+        <p class="about-brief">أنا Mohand. أقدّم حلول واجهات نظيفة، سريعة، قابلة للتوسيع. أكتب كود منظم ومفهوم. سريع التنفيذ وملتزم بالمواعيد. ببساطة: أنا جامد ومركز على النتائج.</p>
+        <div class="cta">
+          <button class="btn" id="contactBtn">أرسل رسالة</button>
+          <button class="ghost" id="cvBtn">حمّل السيرة</button>
+        </div>
+
+        <div class="why" style="margin-top:14px">
+          <strong>لماذا أختارني؟</strong>
+          <ul style="margin:8px 0 0 18px;color:var(--muted)">
+            <li>نتائج عملية قابلة للقياس.</li>
+            <li>كود نظيف وقابل للصيانة.</li>
+            <li>التزام تام بالمواعيد.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <aside class="meta">
+      <div style="text-align:center">
+        <div style="font-size:13px;color:var(--muted)">الوظيفة</div>
+        <div style="font-weight:700;font-size:18px">Front-End / UX</div>
+      </div>
+
+      <div class="card" style="padding:12px">
+        <div style="font-size:13px;color:var(--muted)">المهارات</div>
+        <div class="skills" style="margin-top:8px">
+          <span class="chip">HTML</span>
+          <span class="chip">CSS</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">htmx</span>
+          <span class="chip">Accessibility</span>
+          <span class="chip">Responsive</span>
+        </div>
+      </div>
+
+      <div class="stat">
+        <div style="font-size:13px;color:var(--muted)">الخبرة</div>
+        <div style="font-weight:700">مُنفّذ عملي</div>
+      </div>
+
+    </aside>
+  </section>
+
+  <section class="card">
+    <h3 style="margin:0 0 8px 0">نبذة قصيرة</h3>
+    <p style="color:var(--muted);line-height:1.6">أعمل على تصميم وتطوير واجهات مستخدم واضحة. أُفضّل البساطة وسرعة التحميل. أكتب كود قابل لإعادة الاستخدام. هدفى دائماً وصول المنتج لمرحلة إطلاق فعّال.</p>
+  </section>
+
+  <section class="card">
+    <h3 style="margin:0 0 8px 0">قابل للتواصل</h3>
+    <form id="contactForm">
+      <label>الاسم</label>
+      <input name="name" required>
+      <label>البريد الإلكتروني</label>
+      <input type="email" name="email" required>
+      <label>الرسالة</label>
+      <textarea name="message" required></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button type="submit" class="btn">أرسل</button>
+        <button type="button" class="ghost" id="demoFill">نمذج رسالة</button>
+      </div>
+      <div id="formResult" class="note"></div>
+    </form>
+  </section>
+
+  <footer>
+    <div>مصمّم بواسطة Mohand Hassan</div>
+    <div style="color:var(--muted)">HTML + htmx • RTL</div>
+  </footer>
+</main>
+
+  </div>  <div class="toast" id="toast">تم إرسال الرسالة بنجاح</div>  <script>
+    // ripple effect on primary buttons
+    document.addEventListener('click', function(e){
+      const el = e.target.closest('.btn');
+      if(!el) return;
+      const rect = el.getBoundingClientRect();
+      const circle = document.createElement('span');
+      circle.className = 'ripple';
+      const size = Math.max(rect.width, rect.height);
+      circle.style.width = circle.style.height = size + 'px';
+      circle.style.left = (e.clientX - rect.left - size/2) + 'px';
+      circle.style.top = (e.clientY - rect.top - size/2) + 'px';
+      el.appendChild(circle);
+      setTimeout(()=> circle.remove(), 600);
+    });
+
+    // CV download
+    document.getElementById('cvBtn').addEventListener('click', function(){
+      const txt = `Mohand Hassan
+Front-End & UX Developer
+سريع التنفيذ، كود نظيف، نتائج قابلة للقياس.`;
+      const blob = new Blob([txt], {type: 'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'Mohand-Hassan-CV.txt';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    // demo fill
+    document.getElementById('demoFill').addEventListener('click', function(){
+      document.querySelector('input[name="name"]').value = 'Mohand Hassan';
+      document.querySelector('input[name="email"]').value = 'mohandhassan2292004@gmail.com';
+      document.querySelector('textarea[name="message"]').value = 'مرحبا، مهتم بالتعاون معك على مشروع واجهات.';
+    });
+
+    // contact form submit -> send via formsubmit.co/ajax to provided email
+    document.getElementById('contactForm').addEventListener('submit', async function(ev){
+      ev.preventDefault();
+      const form = ev.target;
+      const data = new FormData(form);
+      // endpoint for formsubmit ajax
+      const endpoint = 'https://formsubmit.co/ajax/mohandhassan2292004@gmail.com';
+      try{
+        const res = await fetch(endpoint, {method:'POST', body: data});
+        if(!res.ok) throw new Error('شبكة');
+        const json = await res.json();
+        showToast('تم إرسال الرسالة بنجاح. سأرد قريباً.');
+        form.reset();
+      }catch(err){
+        showToast('حدث خطأ أثناء الإرسال. حاول مرة أخرى.');
+      }
+    });
+
+    function showToast(txt){
+      const t = document.getElementById('toast');
+      t.textContent = txt;
+      t.classList.add('show');
+      setTimeout(()=> t.classList.remove('show'), 4200);
+    }
+
+    // contact button scroll to form
+    document.getElementById('contactBtn').addEventListener('click', function(){
+      document.getElementById('contactForm').scrollIntoView({behavior:'smooth', block:'center'});
+      document.querySelector('input[name="name"]').focus();
+    });
+  </script></body>
+</html>
